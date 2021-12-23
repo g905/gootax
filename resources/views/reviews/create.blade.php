@@ -42,9 +42,10 @@
                         <div>
                             <label for="city">City</label>
                             <select name="city_id">
-                                <option value="none" default>-</option>>
+                                <option value="none" selected>-</option>>
                                 @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+
+                                <option value="{{ $city->id }}" @if(session('city_id') == $city->id) selected @endif>{{ $city->name }}</option>
                                 @endforeach
                                 <option value="all">Все</option>
                             </select>

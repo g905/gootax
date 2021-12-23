@@ -36,6 +36,7 @@ class CityController extends Controller {
         //85.140.39.250 Izhevsk
         //46.146.26.250 Perm
         //5.45.192.250 Moscow
+        //Request::ip(); 127.0.0.1
         $loc = \Stevebauman\Location\Facades\Location::get("5.45.192.250");
         if ($loc->cityName) {
             $city = \App\Models\City::where(["name" => $loc->cityName])->first();

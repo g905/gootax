@@ -21,7 +21,7 @@ class Review extends Model {
         $this->title = $valid['title'];
         $this->text = $valid['text'];
         $this->id_city = $valid['city_id'];
-        $this->rating = 1;
+        $this->rating = $valid['rating'];
         $this->img = "";
         $this->id_author = auth()->id();
         $this->save();
