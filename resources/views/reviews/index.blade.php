@@ -68,7 +68,37 @@
 
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                        <h4 class="modal-title" id="addArticleLabel">Добавление статьи</h4>
+                        <h4 class="modal-title" id="addArticleLabel">Отзыв</h4>
+
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="data" id="data"></div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Закрыть</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="addReview" tabindex="-1" role="dialog" aria-labelledby="addReviewLabel">
+
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                        <h4 class="modal-title" id="addArticleLabel">Добавление отзыва</h4>
 
                     </div>
 
