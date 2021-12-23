@@ -16,7 +16,7 @@ class CityController extends Controller {
 
     function selectCity($city_id = null) {
         if (!$city_id) {
-            return view("index", ["cities" => \App\Models\City::all(), "ip_city" => $this->guessCity()]);
+            return view("index", ["cities" => \App\Models\City::all()->sortBy("name"), "ip_city" => $this->guessCity()]);
         } else {
             session(["city_id" => $city_id]);
             return redirect()->route("reviews");
@@ -25,7 +25,7 @@ class CityController extends Controller {
 
     function selectCityForm(Request $request) {
         if (!$request->by_ip) {
-            return view("index", ["cities" => \App\Models\City::all()]);
+            return view("index", ["cities" => \App\Models\City::all()->sortBy("name")]);
         } else {
             return redirect()->route("select-city", ["city_id" => $request->city_id]);
         }
@@ -42,14 +42,13 @@ class CityController extends Controller {
         } else {
             throw new \Exception("cant get city name");
         }
-        if ($city) {
-            return $city;
-        } else {
+        if (!$city) {
             $city = new \App\Models\City();
             $city->name = $loc->cityName;
             $city->save();
             return null;
         }
+        return $city;
     }
 
 }
