@@ -53,6 +53,7 @@ class ReviewController extends Controller {
                 $cities[] = $place["city"];
             };
         }
+        asort($cities);
         return $cities;
     }
 
@@ -70,7 +71,8 @@ class ReviewController extends Controller {
             'select_city' => 'required',
             'rating' => 'required'
         ]);
-        if ($request->file('attach')->isValid()) {
+        $valid["attach"] = "";
+        if ($request->file('attach')) {
             $path = $request->attach->store('files');
             $valid["attach"] = $path;
         }
@@ -100,8 +102,13 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function edit($id) {
-        return view('review::edit');
+    public function edit(Request $request) {
+        if ($request->ajax()) {
+            sleep(1);
+            $cities = $this->getCitiesHttp();
+            $review = \Modules\Review\Entities\Review::where(['id' => $request->id])->first();
+            return view('review::includes.modals.editReviewFormModal', ['cities' => $cities, 'review' => $review]);
+        }
     }
 
     /**
@@ -110,8 +117,26 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(Request $request) {
+        sleep(1);
+        $valid = $request->validate([
+            'title' => 'required',
+            'text' => 'required',
+            'attach' => 'mimes:jpg,png,pdf',
+            'select_city' => 'required',
+            'rating' => 'required'
+        ]);
+        $valid["attach"] = "";
+        if ($request->file('attach') != null) {
+            $path = $request->attach->store('files');
+            $valid["attach"] = $path;
+        }
+        $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
+        $city->save();
+        $valid['city_id'] = $city->id;
+        $review = \Modules\Review\Entities\Review::find($request->id);
+        $review->fromValid($valid);
+        return redirect()->route("reviews");
     }
 
     /**
@@ -119,8 +144,13 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id) {
-        //
+    public function destroy(Request $request) {
+        $id = $request->id;
+        if (\Modules\Review\Entities\Review::destroy($id)) {
+            return redirect()->back();
+        } else {
+            throw new \Exception("cant destroy");
+        }
     }
 
 }

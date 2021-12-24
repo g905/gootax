@@ -19,8 +19,8 @@
                     <div>{{ $review->title }}</div>
                     @if (Auth::id() == $review->author->id)
                     <div class='d-flex'>
-                        <a href='' style='text-decoration: none'>&#9998;</a>
-                        <a href='' class="ms-3 text-danger" style='text-decoration: none'>&#10005;</a>
+                        <a href='javascript:void(0);' class="editReviewBtn" data-review="{{ $review->id }}" style='text-decoration: none'>&#9998;</a>
+                        <a href='{{ route('reviews.delete', ["id" => $review->id]) }}' class="ms-3 text-danger" style='text-decoration: none'>&#10005;</a>
                     </div>
                     @endif
                 </div>
@@ -68,6 +68,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="addReviewData"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="editReviewLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="editReviewData"></div>
             </div>
         </div>
     </div>

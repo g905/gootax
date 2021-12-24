@@ -22,7 +22,9 @@ class Review extends Model {
         $this->text = $valid['text'];
         $this->id_city = $valid['city_id'];
         $this->rating = $valid['rating'];
-        $this->img = $valid["attach"];
+        if ($valid["attach"] != "") {
+            $this->img = $valid["attach"];
+        }
         $this->id_author = auth()->id();
         $this->save();
         return $this;
