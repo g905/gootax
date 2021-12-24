@@ -66,15 +66,24 @@ class ReviewController extends Controller {
         $valid = $request->validate([
             'title' => 'required',
             'text' => 'required',
+            'attach' => 'mimes:jpg,png,pdf',
             'select_city' => 'required',
             'rating' => 'required'
         ]);
+        if ($request->file('attach')->isValid()) {
+            $path = $request->attach->store('files');
+            $valid["attach"] = $path;
+        }
         $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
         $city->save();
         $valid['city_id'] = $city->id;
         $review = new \Modules\Review\Entities\Review();
         $review->fromValid($valid);
         return redirect()->route("reviews");
+    }
+
+    public function download($id) {
+        return \Illuminate\Support\Facades\Storage::download(\Modules\Review\Entities\Review::where(['id' => $id])->first()->img);
     }
 
     /**

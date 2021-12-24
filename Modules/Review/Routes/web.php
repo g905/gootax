@@ -17,6 +17,7 @@
   });
  */
 Route::get('/reviews', [Modules\Review\Http\Controllers\ReviewController::class, "index"])->name("reviews");
+Route::get('/download/{id}', [Modules\Review\Http\Controllers\ReviewController::class, "download"])->name("download-file");
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/reviews/create', [Modules\Review\Http\Controllers\ReviewController::class, "create"])->name("reviews.create.ajax");
     //Route::post('/reviews/create', [Modules\Review\Http\Controllers\ReviewController::class, "create"])->name("reviews.create");

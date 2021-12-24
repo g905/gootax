@@ -10,7 +10,7 @@
         @endif
     </div>
     <div class="row mb-4">
-        <div class='col-12 d-flex flex-wrap justify-content-around'>
+        <div class='col-12 d-flex flex-wrap '>
             @if(count($reviews))
             @foreach ($reviews as $review)
 
@@ -18,8 +18,9 @@
                 <div class='card-title p-2 h-8 d-flex justify-content-between'>
                     <div>{{ $review->title }}</div>
                     @if (Auth::id() == $review->author->id)
-                    <div>
-                        <a href=''>edit</a>
+                    <div class='d-flex'>
+                        <a href='' style='text-decoration: none'>&#9998;</a>
+                        <a href='' class="ms-3 text-danger" style='text-decoration: none'>&#10005;</a>
                     </div>
                     @endif
                 </div>
@@ -34,14 +35,21 @@
                     </div>
                 </div>
                 <div class='card-body p-2'>{{ $review->text }}</div>
-                <div class="card-footer text-sm d-flex justify-content-end">by&nbsp;
-                    @if (Auth::user())
-                    <button class='btn authorBtn bg-white py-0 px-1' data-author="{{ $review->author->id }}">
+                <div class="card-footer text-sm d-flex justify-content-between">
+                    <div>
+                        @if($review->img != "")
+                        <a href="{{ route('download-file', ['id' => $review->id]) }}" class="text-danger text-decoration-none">&#9762;</a>
+                        @endif
+                    </div>
+                    <div><small>by&nbsp;</small>
+                        @if (Auth::user())
+                        <button class='btn authorBtn bg-white py-0 px-1' data-author="{{ $review->author->id }}">
+                            {{ $review->author->name }}
+                        </button>
+                        @else
                         {{ $review->author->name }}
-                    </button>
-                    @else
-                    {{ $review->author->name }}
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach

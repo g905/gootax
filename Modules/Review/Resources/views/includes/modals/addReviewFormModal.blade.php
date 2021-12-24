@@ -13,7 +13,7 @@
                 </div>
             </div>
             @endif
-            <form action="{{ route('reviews.store') }}" method="post">
+            <form action="{{ route('reviews.store') }}" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     @csrf
                     <div>
@@ -33,7 +33,7 @@
                     </div>
                     <div>
                         <label for="title">File</label>
-                        <input type="file" name="file">
+                        <input type="file" name="attach">
                     </div>
                     <div>
                         <label for="city">City</label>

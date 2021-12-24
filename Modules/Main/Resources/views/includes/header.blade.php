@@ -3,7 +3,7 @@
         <div class='d-flex justify-content-between'>
             <div class=''>
                 <div class='logo d-flex' style='font-size: 2rem; font-weight: bold'>
-                    <div class='text-danger pe-2' >&#9733;</div>
+                    <div class='text-danger pe-2' >&#9763;</div>
                     <div class='d-flex flex-column justify-content-center'>Gootax</div>
                 </div>
             </div>
