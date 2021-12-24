@@ -17,18 +17,18 @@ Route::get('/laravel', function () {
     return view("welcome");
 });
 
-Route::get('/', [App\Http\Controllers\CityController::class, "index"]);
-Route::get('/select-city/{city_id?}', [App\Http\Controllers\CityController::class, "selectCity"])->name("select-city");
-Route::post('/select-city', [App\Http\Controllers\CityController::class, "selectCityForm"])->name("select-city-form");
-
-Route::get('/reviews', [App\Http\Controllers\ReviewController::class, "index"])->name("reviews");
-Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/reviews/create', [App\Http\Controllers\ReviewController::class, "create"])->name("reviews.create");
-    Route::post('/reviews', [App\Http\Controllers\ReviewController::class, "save"])->name("reviews.save");
-    Route::post('/reviews/author', [App\Http\Controllers\ReviewController::class, "author"])->name("reviews.author");
-    Route::get('/reviews-by-author/{id}', [App\Http\Controllers\ReviewController::class, "reviewsByAuthor"])->name("reviews.by.author");
-});
-
+//Route::get('/', [App\Http\Controllers\CityController::class, "index"]);
+//Route::get('/select-city/{city_id?}', [App\Http\Controllers\CityController::class, "selectCity"]);
+//Route::post('/select-city', [App\Http\Controllers\CityController::class, "selectCityForm"])->name("select-city-form");
+/*
+  Route::get('/reviews', [App\Http\Controllers\ReviewController::class, "index"])->name("reviews");
+  Route::group(['middleware' => ['auth', 'verified']], function () {
+  Route::get('/reviews/create', [App\Http\Controllers\ReviewController::class, "create"])->name("reviews.create");
+  Route::post('/reviews', [App\Http\Controllers\ReviewController::class, "save"])->name("reviews.save");
+  Route::post('/reviews/author', [App\Http\Controllers\ReviewController::class, "author"])->name("reviews.author");
+  Route::get('/reviews-by-author/{id}', [App\Http\Controllers\ReviewController::class, "reviewsByAuthor"])->name("reviews.by.author");
+  });
+ */
 Route::get("/test", [App\Http\Controllers\CityController::class, "test"]);
 
 Route::group(['middleware' => ['auth']], function () {
