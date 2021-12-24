@@ -18,8 +18,9 @@
  */
 Route::get('/reviews', [Modules\Review\Http\Controllers\ReviewController::class, "index"])->name("reviews");
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/reviews/create', [Modules\Review\Http\Controllers\ReviewController::class, "create"])->name("reviews.create");
-    Route::post('/reviews', [Modules\Review\Http\Controllers\ReviewController::class, "save"])->name("reviews.save");
+    Route::get('/reviews/create', [Modules\Review\Http\Controllers\ReviewController::class, "create"])->name("reviews.create.ajax");
+    //Route::post('/reviews/create', [Modules\Review\Http\Controllers\ReviewController::class, "create"])->name("reviews.create");
+    Route::post('/reviews', [Modules\Review\Http\Controllers\ReviewController::class, "store"])->name("reviews.store");
     Route::post('/reviews/author', [Modules\Review\Http\Controllers\ReviewController::class, "author"])->name("reviews.author");
     Route::get('/reviews-by-author/{id}', [Modules\Review\Http\Controllers\ReviewController::class, "reviewsByAuthor"])->name("reviews.by.author");
 });

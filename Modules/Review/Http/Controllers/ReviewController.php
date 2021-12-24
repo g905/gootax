@@ -27,12 +27,33 @@ class ReviewController extends Controller {
         return $data;
     }
 
+    function reviewsByAuthor($id) {
+        $author = \Modules\User\Entities\User::where(['id' => $id])->first();
+        $reviews = $author->reviews;
+        return view('review::index', ["reviews" => $reviews]);
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function create() {
-        return view('review::create');
+    public function create(Request $request) {
+        if ($request->ajax()) {
+            sleep(1);
+            $cities = $this->getCitiesHttp();
+            return view('review::includes.modals.addReviewFormModal', ['cities' => $cities]);
+        }
+    }
+
+    private function getCitiesHttp() {
+        $response = \Illuminate\Support\Facades\Http::get('https://gist.githubusercontent.com/gorborukov/0722a93c35dfba96337b/raw/435b297ac6d90d13a68935e1ec7a69a225969e58/russia');
+        $cities = [];
+        if ($response->successful()) {
+            foreach ($response->json() as $place) {
+                $cities[] = $place["city"];
+            };
+        }
+        return $cities;
     }
 
     /**
@@ -41,7 +62,19 @@ class ReviewController extends Controller {
      * @return Renderable
      */
     public function store(Request $request) {
-        //
+        sleep(1);
+        $valid = $request->validate([
+            'title' => 'required',
+            'text' => 'required',
+            'select_city' => 'required',
+            'rating' => 'required'
+        ]);
+        $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
+        $city->save();
+        $valid['city_id'] = $city->id;
+        $review = new \Modules\Review\Entities\Review();
+        $review->fromValid($valid);
+        return redirect()->route("reviews");
     }
 
     /**

@@ -6,7 +6,7 @@
         <h4>Отзывы</h4>
 
         @if (Auth::user())
-        <div class=''><a href="{{ route('reviews.create') }}" class="btn btn-danger">Добавить отзыв</a></div>
+        <div class=''><button id="addReview" class="btn btn-danger">Добавить отзыв</button></div>
         @endif
     </div>
     <div class="row mb-4">
@@ -54,28 +54,41 @@
     </div>
 </div>
 
+<div class="modals">
 
-<div class="modal fade" id="authorModal" tabindex="-1" role="dialog" aria-labelledby="addArticleLabel">
-
-    <div class="modal-dialog" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                <h4 class="modal-title" id="addArticleLabel">Отзыв</h4>
-
+    <div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="addReviewData"></div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal-body">
-                <div class="data" id="data"></div>
-            </div>
 
-            <div class="modal-footer">
 
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Закрыть</button>
+    <div class="modal fade" id="authorModal" tabindex="-1" role="dialog" aria-labelledby="addArticleLabel">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title" id="addArticleLabel">Отзыв</h4>
+
+                </div>
+
+                <div class="modal-body">
+                    <div class="data" id="data"></div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Закрыть</button>
+
+                </div>
 
             </div>
 
@@ -84,7 +97,6 @@
     </div>
 
 </div>
-
 @endsection
 
 @section('module-scripts')
