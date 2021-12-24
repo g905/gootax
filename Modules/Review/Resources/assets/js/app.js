@@ -52,7 +52,7 @@ $(function () {
                 $('#loader').hide();
             },
 
-            url: "reviews/create",
+            url: "/reviews/create",
             type: "get",
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),

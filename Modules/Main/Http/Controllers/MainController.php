@@ -42,12 +42,14 @@ class MainController extends Controller {
         //85.140.39.250 Izhevsk
         //46.146.26.250 Perm
         //5.45.192.250 Moscow
+        //34..4.2.3 Bad IP
         //Request::ip(); 127.0.0.1
-        $loc = \Stevebauman\Location\Facades\Location::get("46.146.26.250");
+        $loc = \Stevebauman\Location\Facades\Location::get("5.45.192.250");
         if ($loc->cityName) {
             $city = \Modules\City\Entities\City::where(["name" => $loc->cityName])->first();
         } else {
-            throw new \Exception("cant get city name");
+            //throw new \Exception("cant get city name");
+            return redirect()->route("select-city");
         }
         if (!$city) {
             $city = new \Modules\City\Entities\City();
