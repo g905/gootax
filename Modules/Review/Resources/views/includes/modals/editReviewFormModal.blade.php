@@ -13,9 +13,10 @@
                 </div>
             </div>
             @endif
-            <form action="{{ route('reviews.update') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('reviews.update', $review->id) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="_method" value="put">
                 <div class="modal-body">
-                    @csrf
                     <div>
                         <label for="title">Title</label>
                         <input type="text" name="title" value="{{ $review->title }}">

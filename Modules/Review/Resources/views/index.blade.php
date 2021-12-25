@@ -19,8 +19,15 @@
                     <div>{{ $review->title }}</div>
                     @if (Auth::id() == $review->author->id)
                     <div class='d-flex'>
-                        <a href='javascript:void(0);' class="editReviewBtn" data-review="{{ $review->id }}" style='text-decoration: none'>&#9998;</a>
-                        <a href='{{ route('reviews.delete', ["id" => $review->id]) }}' class="ms-3 text-danger" style='text-decoration: none'>&#10005;</a>
+                        <a href='javascript:void(0);' class="btn btn-primary editReviewBtn" data-review="{{ $review->id }}">&#9998;</a>
+                        <form action="{{ route('reviews.destroy', $review->id) }}" method="post">
+                            @csrf
+                            <input type="hidden" name="_method" value="delete">
+                            <div class="">
+                                <button type="submit" class="btn btn-danger">&#10005;</button>
+                            </div>
+                        </form>
+
                     </div>
                     @endif
                 </div>

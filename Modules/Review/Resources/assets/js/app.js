@@ -84,8 +84,8 @@ $(function () {
                 $('#loader').hide();
             },
 
-            url: "/reviews/edit",
-            type: "post",
+            url: "/reviews/" + $(this).data('review') + "/edit",
+            type: "get",
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: $(this).data('review'),

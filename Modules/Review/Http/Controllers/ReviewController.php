@@ -21,7 +21,7 @@ class ReviewController extends Controller {
     }
 
     function author(Request $request) {
-        $author = \Modules\User\Entities\User::where(['id' => $request->author_id])->first();
+        $author = \Modules\User\Entities\User::find($request->author_id);
         $data = ['name' => $author->details->fio, 'email' => $author->details->email, 'phone' => $author->details->phone, 'id' => $author->id];
         sleep(1);
         return $data;
@@ -81,11 +81,11 @@ class ReviewController extends Controller {
         $valid['city_id'] = $city->id;
         $review = new \Modules\Review\Entities\Review();
         $review->fromValid($valid);
-        return redirect()->route("reviews");
+        return redirect()->back();
     }
 
     public function download($id) {
-        return \Illuminate\Support\Facades\Storage::download(\Modules\Review\Entities\Review::where(['id' => $id])->first()->img);
+        return \Illuminate\Support\Facades\Storage::download(\Modules\Review\Entities\Review::find($id)->img);
     }
 
     /**
@@ -94,7 +94,9 @@ class ReviewController extends Controller {
      * @return Renderable
      */
     public function show($id) {
-        return view('review::show');
+        $cities = $this->getCitiesHttp();
+        $review = \Modules\Review\Entities\Review::find($id);
+        return view('review::includes.modals.editReviewFormModal', ['cities' => $cities, 'review' => $review]);
     }
 
     /**
@@ -106,7 +108,7 @@ class ReviewController extends Controller {
         if ($request->ajax()) {
             sleep(1);
             $cities = $this->getCitiesHttp();
-            $review = \Modules\Review\Entities\Review::where(['id' => $request->id])->first();
+            $review = \Modules\Review\Entities\Review::find($request->id);
             return view('review::includes.modals.editReviewFormModal', ['cities' => $cities, 'review' => $review]);
         }
     }
@@ -117,7 +119,7 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request) {
+    public function update(Request $request, $id) {
         sleep(1);
         $valid = $request->validate([
             'title' => 'required',
@@ -134,9 +136,9 @@ class ReviewController extends Controller {
         $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
         $city->save();
         $valid['city_id'] = $city->id;
-        $review = \Modules\Review\Entities\Review::find($request->id);
+        $review = \Modules\Review\Entities\Review::find($id);
         $review->fromValid($valid);
-        return redirect()->route("reviews");
+        return redirect()->back();
     }
 
     /**
@@ -144,8 +146,7 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function destroy(Request $request) {
-        $id = $request->id;
+    public function destroy($id) {
         if (\Modules\Review\Entities\Review::destroy($id)) {
             return redirect()->back();
         } else {

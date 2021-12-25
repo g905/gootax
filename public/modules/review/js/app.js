@@ -61,11 +61,38 @@ $(function () {
             success: function (data) {
                 $('#addReviewModal .addReviewData').append(data);
                 $('#addReviewModal').modal('show');
-                /*var str = '<div>Автор: ' + data['name'] + '</div>' +
-                 '<div>Email: ' + data['email'] + '</div>' +
-                 '<div>Телефон: ' + data['phone'] + '</div>' +
-                 '<div class="mt-2"><a class="btn btn-danger" href="/reviews-by-author/' + data["id"] + '">Все отзывы автора</a></div>';
-                 $('.data').append(str);*/
+            },
+            error: function (msg) {
+                console.log(msg);
+            }
+
+        });
+    });
+
+    $('.editReviewBtn').on('click', function () {
+        var editReviewModal = $('#editReviewModal');
+        var editReviewInput = $('#editReviewModal .editReviewData');
+
+        editReviewModal.on('hidden.bs.modal', function () {
+            editReviewInput.empty();
+        });
+        $.ajax({
+            beforeSend: function () {
+                $('#loader').show();
+            },
+            complete: function () {
+                $('#loader').hide();
+            },
+
+            url: "/reviews/" + $(this).data('review') + "/edit",
+            type: "get",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: $(this).data('review'),
+            },
+            success: function (data) {
+                $('#editReviewModal .editReviewData').append(data);
+                $('#editReviewModal').modal('show');
             },
             error: function (msg) {
                 console.log(msg);
