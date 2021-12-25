@@ -40,8 +40,7 @@ class ReviewController extends Controller {
     public function create(Request $request) {
         if ($request->ajax()) {
             sleep(1);
-            $cities = $this->getCitiesHttp();
-            return view('review::includes.modals.addReviewFormModal', ['cities' => $cities]);
+            return view('review::includes.modals.addReviewFormModal');
         }
     }
 
@@ -68,7 +67,7 @@ class ReviewController extends Controller {
             'title' => 'required',
             'text' => 'required',
             'attach' => 'mimes:jpg,png,pdf',
-            'select_city' => 'required',
+            'city' => 'required',
             'rating' => 'required'
         ]);
         $valid["attach"] = "";
@@ -76,7 +75,11 @@ class ReviewController extends Controller {
             $path = $request->attach->store('files');
             $valid["attach"] = $path;
         }
-        $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
+
+        $cityCode = \Illuminate\Support\Str::slug($valid["city"]);
+
+        $city = \Modules\City\Entities\City::where(['code' => $cityCode])->firstOrNew(["name" => $valid["city"]]);
+        $city->code = $cityCode;
         $city->save();
         $valid['city_id'] = $city->id;
         $review = new \Modules\Review\Entities\Review();
@@ -94,9 +97,8 @@ class ReviewController extends Controller {
      * @return Renderable
      */
     public function show($id) {
-        $cities = $this->getCitiesHttp();
         $review = \Modules\Review\Entities\Review::find($id);
-        return view('review::includes.modals.editReviewFormModal', ['cities' => $cities, 'review' => $review]);
+        return view('review::includes.modals.editReviewFormModal', ['review' => $review]);
     }
 
     /**
@@ -107,9 +109,8 @@ class ReviewController extends Controller {
     public function edit(Request $request) {
         if ($request->ajax()) {
             sleep(1);
-            $cities = $this->getCitiesHttp();
             $review = \Modules\Review\Entities\Review::find($request->id);
-            return view('review::includes.modals.editReviewFormModal', ['cities' => $cities, 'review' => $review]);
+            return view('review::includes.modals.editReviewFormModal', ['review' => $review]);
         }
     }
 
@@ -125,7 +126,7 @@ class ReviewController extends Controller {
             'title' => 'required',
             'text' => 'required',
             'attach' => 'mimes:jpg,png,pdf',
-            'select_city' => 'required',
+            'city' => 'required',
             'rating' => 'required'
         ]);
         $valid["attach"] = "";
@@ -133,7 +134,10 @@ class ReviewController extends Controller {
             $path = $request->attach->store('files');
             $valid["attach"] = $path;
         }
-        $city = \Modules\City\Entities\City::where(['name' => $valid["select_city"]])->firstOrCreate(["name" => $valid["select_city"]]);
+        $cityCode = \Illuminate\Support\Str::slug($valid["city"]);
+
+        $city = \Modules\City\Entities\City::where(['code' => $cityCode])->firstOrNew(["name" => $valid["city"]]);
+        $city->code = $cityCode;
         $city->save();
         $valid['city_id'] = $city->id;
         $review = \Modules\Review\Entities\Review::find($id);

@@ -9,7 +9,7 @@ class City extends Model {
 
     use HasFactory;
 
-    protected $fillable = ["name"];
+    protected $fillable = ["name", "code"];
 
     protected static function newFactory() {
         return \Modules\City\Database\factories\CityFactory::new();

@@ -37,13 +37,8 @@
                         <input type="file" name="attach">
                     </div>
                     <div>
-                        <label for="city">City</label>
-                        <select name="select_city">
-                            <option value="none" selected>-</option>>
-                            @foreach($cities as $city)
-                            <option value="{{ $city }}" @if($city == $review->city->name) selected @endif>{{ $city }}</option>
-                            @endforeach
-                        </select>
+                        <label for="city">Город:</label>
+                        <input id="cityInput" name="city" type="text" />
                     </div>
                     <input type="hidden" name="id" value="{{ $review->id }}">
                 </div>

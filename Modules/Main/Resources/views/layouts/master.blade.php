@@ -26,7 +26,9 @@
     <!--<script src="{{ mix('js/main.js') }}"></script>-->
     <script src='{{ Module::asset("main:js/jquery.min.js") }}'></script>
     <script src='{{ Module::asset("main:js/bootstrap.bundle.js") }}'></script>
+    <script src='{{ Module::asset("main:js/jquery-ui.min.js") }}'></script>
     <script src='{{ Module::asset("main:js/app.js") }}'></script>
+    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.8.0/dist/js/jquery.suggestions.min.js"></script>
 
     @yield('module-scripts')
 </body>

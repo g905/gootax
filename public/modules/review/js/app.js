@@ -61,6 +61,7 @@ $(function () {
             success: function (data) {
                 $('#addReviewModal .addReviewData').append(data);
                 $('#addReviewModal').modal('show');
+                autocomplete();
             },
             error: function (msg) {
                 console.log(msg);
@@ -93,12 +94,45 @@ $(function () {
             success: function (data) {
                 $('#editReviewModal .editReviewData').append(data);
                 $('#editReviewModal').modal('show');
+                autocomplete();
             },
             error: function (msg) {
                 console.log(msg);
             }
-
         });
     });
 
-})
+});
+
+function autocomplete() {
+    console.log("test");
+    var token = "c8616d4e3423b210b36fa956f3dd7d4e11de2a02";
+
+    var defaultFormatResult = $.Suggestions.prototype.formatResult;
+
+    function formatResult(value, currentValue, suggestion, options) {
+        var newValue = suggestion.data.city;
+        suggestion.value = newValue;
+        return defaultFormatResult.call(this, newValue, currentValue, suggestion, options);
+    }
+
+    function formatSelected(suggestion) {
+        return suggestion.data.city;
+    }
+
+    $("#cityInput").suggestions({
+        token: token,
+        type: "ADDRESS",
+        hint: false,
+        bounds: "city",
+        constraints: {
+            locations: {city_type_full: "город"}
+        },
+        formatResult: formatResult,
+        formatSelected: formatSelected,
+        onSelect: function (suggestion) {
+            console.log(suggestion);
+        }
+    });
+}
+;
