@@ -2,18 +2,10 @@
     <div class="modal-header">Добавить отзыв</div>
     <div id="addReviewModalData">
         <div class="p-6 bg-white border-b border-gray-200">
-            @if ($errors->any())
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="addReviewErrors text-danger">
             </div>
-            @endif
-            <form action="{{ route('reviews.store') }}" method="post" enctype="multipart/form-data">
+
+            <form action="" method="post" enctype="multipart/form-data" id="addReviewForm">
                 <div class="modal-body">
                     @csrf
                     <div>
@@ -43,7 +35,7 @@
                 </div>
                 <div class="modal-footer">
                     <div>
-                        <button class="btn btn-danger" type="submit">Отправить</button>
+                        <button class="btn btn-danger" id="addReviewSubmit" type="button">Отправить</button>
                     </div>
 
                 </div>
@@ -51,3 +43,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $("#addReviewSubmit").click(function (e) {
+            e.preventDefault();
+
+            var addReviewErrors = $('.addReviewErrors');
+
+            addReviewErrors.empty();
+
+            formData = $("#addReviewForm").serializeArray();
+
+            $.ajax({
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+
+                url: "/reviews/store",
+                type: "post",
+                data: formData,
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (msg) {
+                    let errors = msg.responseJSON.errors;
+                    str = "";
+                    $.each(errors, function (idx, val) {
+                        str += "<div class='error'>" + idx + ": " + val + "</div>";
+                    })
+                    addReviewErrors.append(str);
+                }
+
+            });
+        });
+    });
+</script>

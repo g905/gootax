@@ -10,7 +10,7 @@
         @endif
     </div>
     <div class="row mb-4">
-        <div class='col-12 d-flex flex-wrap '>
+        <div class='col-12 d-flex flex-wrap reviews'>
             @if(count($reviews))
             @foreach ($reviews as $review)
 

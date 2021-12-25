@@ -105,7 +105,6 @@ $(function () {
 });
 
 function autocomplete() {
-    console.log("test");
     var token = "c8616d4e3423b210b36fa956f3dd7d4e11de2a02";
 
     var defaultFormatResult = $.Suggestions.prototype.formatResult;

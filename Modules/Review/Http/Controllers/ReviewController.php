@@ -40,7 +40,7 @@ class ReviewController extends Controller {
      */
     public function create(Request $request) {
         if ($request->ajax()) {
-            sleep(10);
+            //sleep(10);
             return view('review::includes.modals.addReviewFormModal');
         }
     }
@@ -85,7 +85,7 @@ class ReviewController extends Controller {
         $valid['city_id'] = $city->id;
         $review = new \Modules\Review\Entities\Review();
         $review->fromValid($valid);
-        return redirect()->back();
+        return $review;
     }
 
     public function download($id) {
@@ -121,7 +121,7 @@ class ReviewController extends Controller {
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request) {
         sleep(1);
         $valid = $request->validate([
             'title' => 'required',
@@ -141,9 +141,9 @@ class ReviewController extends Controller {
         $city->code = $cityCode;
         $city->save();
         $valid['city_id'] = $city->id;
-        $review = \Modules\Review\Entities\Review::find($id);
+        $review = \Modules\Review\Entities\Review::find($request->id);
         $review->fromValid($valid);
-        return redirect()->back();
+        return $review;
     }
 
     /**

@@ -2,20 +2,10 @@
     <div class="modal-header">Изменить отзыв</div>
     <div id="editReviewModalData">
         <div class="p-6 bg-white border-b border-gray-200">
-            @if ($errors->any())
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="editReviewErrors text-danger">
             </div>
-            @endif
-            <form action="{{ route('reviews.update', $review->id) }}" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data" id="editReviewForm">
                 @csrf
-                <input type="hidden" name="_method" value="put">
                 <div class="modal-body">
                     <div>
                         <label for="title">Title</label>
@@ -38,13 +28,13 @@
                     </div>
                     <div>
                         <label for="city">Город:</label>
-                        <input id="cityInput" name="city" type="text" />
+                        <input id="cityInput" name="city" type="text" value="{{ $review->city->name }}"/>
                     </div>
                     <input type="hidden" name="id" value="{{ $review->id }}">
                 </div>
                 <div class="modal-footer">
                     <div>
-                        <button class="btn btn-danger" type="submit">Отправить</button>
+                        <button class="btn btn-danger" id="editReviewSubmit" type="button">Отправить</button>
                     </div>
 
                 </div>
@@ -52,3 +42,43 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $("#editReviewSubmit").click(function (e) {
+            e.preventDefault();
+
+            var editReviewErrors = $('.editReviewErrors');
+
+            editReviewErrors.empty();
+
+            formData = $("#editReviewForm").serializeArray();
+
+            $.ajax({
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+
+                url: "/reviews/update",
+                type: "post",
+                data: formData,
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (msg) {
+                    console.log(msg)
+                    let errors = msg.responseJSON.errors;
+                    str = "";
+                    $.each(errors, function (idx, val) {
+                        str += "<div class='error'>" + idx + ": " + val + "</div>";
+                    })
+                    editReviewErrors.append(str);
+                }
+
+            });
+        });
+    });
+</script>
