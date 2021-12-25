@@ -44,19 +44,21 @@ class MainController extends Controller {
         //5.45.192.250 Moscow
         //34..4.2.3 Bad IP
         //Request::ip(); 127.0.0.1
-        $loc = \Stevebauman\Location\Facades\Location::get("5.45.192.250");
-        if ($loc->cityName) {
-            $city = \Modules\City\Entities\City::where(["name" => $loc->cityName])->first();
+        $token = "c8616d4e3423b210b36fa956f3dd7d4e11de2a02";
+        $dadata = new \Dadata\DadataClient($token, null);
+        $result = $dadata->iplocate("5.45.192.250");
+        if ($result) {
+            $cityName = $result["data"]["city"];
+            $cityCode = \Illuminate\Support\Str::slug($cityName);
+            $city = \Modules\City\Entities\City::firstOrNew(["code" => $cityCode]);
+            $city->name = $cityName;
+            $city->save();
+            //return redirect()->route("reviews");
+            return view('main::guessByIp', ['city' => $city]);
         } else {
             //throw new \Exception("cant get city name");
             return redirect()->route("select-city");
         }
-        if (!$city) {
-            $city = new \Modules\City\Entities\City();
-            $city->name = $loc->cityName;
-            $city->save();
-        }
-        return view('main::guessByIp', ['city' => $city]);
     }
 
     /**

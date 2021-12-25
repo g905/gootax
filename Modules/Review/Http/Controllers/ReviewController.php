@@ -13,6 +13,7 @@ class ReviewController extends Controller {
      * @return Renderable
      */
     public function index() {
+        //session()->flush();
         if (!session("city_id")) {
             return redirect()->route("index");
         }
