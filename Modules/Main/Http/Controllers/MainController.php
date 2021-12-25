@@ -46,7 +46,7 @@ class MainController extends Controller {
         //Request::ip(); 127.0.0.1
         $token = "c8616d4e3423b210b36fa956f3dd7d4e11de2a02";
         $dadata = new \Dadata\DadataClient($token, null);
-        $result = $dadata->iplocate("5.45.192.250");
+        $result = $dadata->iplocate("31.130.66.250");
         if ($result) {
             $cityName = $result["data"]["city"];
             $cityCode = \Illuminate\Support\Str::slug($cityName);
