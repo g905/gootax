@@ -40,7 +40,7 @@ class ReviewController extends Controller {
      */
     public function create(Request $request) {
         if ($request->ajax()) {
-            sleep(1);
+            sleep(10);
             return view('review::includes.modals.addReviewFormModal');
         }
     }
