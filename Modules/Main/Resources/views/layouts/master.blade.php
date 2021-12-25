@@ -14,6 +14,7 @@
     </head>
     <body>
         @include('main::includes.header')
+        @include('main::includes.nav')
         <main>
             @yield('content')
         </main>

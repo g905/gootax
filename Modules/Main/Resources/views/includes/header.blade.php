@@ -1,4 +1,4 @@
-<header class='bg-light py-5'>
+<header class='bg-light py-4'>
     <div class='container'>
         <div class='d-flex justify-content-between'>
             <div class=''>
@@ -44,5 +44,8 @@
                 @endif
             </div>
         </div>
+        @if(\Modules\City\Entities\City::find(session("city_id")))
+        <div class='d-flex header-city'>{{ \Modules\City\Entities\City::find(session("city_id"))->name }}</div>
+        @endif
     </div>
 </header>
