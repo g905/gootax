@@ -22,14 +22,14 @@ class ReviewController extends Controller {
     }
 
     function author(Request $request) {
-        $author = \Modules\User\Entities\User::find($request->author_id);
+        $author = \App\Models\User::find($request->author_id);
         $data = ['name' => $author->details->fio, 'email' => $author->details->email, 'phone' => $author->details->phone, 'id' => $author->id];
         sleep(1);
         return $data;
     }
 
     function reviewsByAuthor($id) {
-        $author = \Modules\User\Entities\User::where(['id' => $id])->first();
+        $author = \App\Models\User::where(['id' => $id])->first();
         $reviews = $author->reviews;
         return view('review::index', ["reviews" => $reviews]);
     }
@@ -130,6 +130,7 @@ class ReviewController extends Controller {
             'city' => 'required',
             'rating' => 'required'
         ]);
+
         $valid["attach"] = "";
         if ($request->file('attach') != null) {
             $path = $request->attach->store('files');

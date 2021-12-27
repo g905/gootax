@@ -11,7 +11,13 @@
                 @if(Auth::user())
                 <div class="d-flex">
                     <div class="d-flex flex-column justify-content-center">
-                        <div class="me-2">{{ Auth::user()->details->fio }}</div>
+                        <div class="me-2">
+                            @if(Auth::user()->details->fio)
+                            {{ Auth::user()->details->fio }}
+                            @else
+                            {{ Auth::user()->details->email }}
+                            @endif
+                        </div>
                         <!--<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>-->
                     </div>
 

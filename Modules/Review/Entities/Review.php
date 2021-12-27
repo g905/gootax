@@ -10,7 +10,7 @@ class Review extends Model {
     use HasFactory;
 
     function author() {
-        return $this->hasOne(\Modules\User\Entities\User::class, 'id', "id_author");
+        return $this->hasOne(\App\Models\User::class, 'id', "id_author");
     }
 
     function city() {
