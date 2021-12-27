@@ -14,7 +14,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{{ route('reviews') }}">По городу</a></li>
-                    @if(Auth::user())
+                    @if(Auth::user()->email_verified_at != null)
                     <li><a class="dropdown-item" href="{{ route('reviews.by.author', ['id' => auth()->user()->id]) }}">Мои</a></li>
                     @endif
                 </ul>

@@ -5,7 +5,7 @@
     <div class="caption py-3 d-flex justify-content-between">
         <h4>Отзывы</h4>
 
-        @if (Auth::user())
+        @if (Auth::user()->email_verified_at != null)
         <div class=''><button id="addReview" class="btn btn-danger">Добавить отзыв</button></div>
         @endif
     </div>
@@ -49,7 +49,7 @@
                         @endif
                     </div>
                     <div><small>by&nbsp;</small>
-                        @if (Auth::user())
+                        @if (Auth::user()->email_verified_at)
                         <button class='btn authorBtn bg-white py-0 px-1' data-author="{{ $review->author->id }}">
                             {{ $review->author->name }}
                         </button>
